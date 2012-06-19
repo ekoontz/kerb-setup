@@ -1,12 +1,12 @@
 #!/bin/sh
-if [! $HOSTNAME ]; then
+if [ -z $HOSTNAME ]; then
     HOSTNAME=`hostname -f`
 fi
+echo $HOSTNAME
 
 PASSWORD=$1
 KADMIN_LOCAL="sudo kadmin.local"
 NORMAL_USER=`whoami`
-set -x
 
 #This script is idempotent: deletes existing principles and keytabs, if any,
 #before recreating.
