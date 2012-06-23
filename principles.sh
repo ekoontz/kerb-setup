@@ -9,7 +9,8 @@ fi
 if [ -z $HOSTNAME ]; then
     HOSTNAME=`hostname -f`
 fi
-echo "using hostname: $HOSTNAME for server component of server principals."
+echo "using hostname: $HOSTNAME for instance component of"
+echo "   server principals (service/instance@DOMAIN)."
 
 KADMIN_LOCAL="sudo kadmin.local"
 NORMAL_USER=`whoami`
