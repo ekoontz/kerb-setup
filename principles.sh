@@ -14,8 +14,8 @@ echo "using hostname: $HOSTNAME for server component of server principals."
 KADMIN_LOCAL="sudo kadmin.local"
 NORMAL_USER=`whoami`
 
-#This script is idempotent: running it multiple times: re-running it
-#results in the same state. Currently accomplished by deleting existing
+#This script is idempotent: running it multiple times results in the same state.
+#as if you only ran it once. Currently accomplished by deleting existing
 #principles and keytabs, if any, and then (re-)creating.
 
 #1. services
