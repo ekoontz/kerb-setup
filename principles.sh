@@ -2,7 +2,7 @@
 
 PASSWORD=$1
 if [ -z $PASSWORD ]; then
-    echo "Usage: principles.sh <password>"
+    echo "Usage: principles.sh <interactive-client-password>"
     exit 1
 fi
 
@@ -23,6 +23,11 @@ SERVICE_KEYTAB=services.keytab
 
 rm -f `pwd`/$SERVICE_KEYTAB
 
+#host
+echo "delprinc -force host/$HOSTNAME" | $KADMIN_LOCAL
+echo "addprinc -randkey host/$HOSTNAME" | $KADMIN_LOCAL
+echo "ktadd -k `pwd`/$SERVICE_KEYTAB host/$HOSTNAME" | $KADMIN_LOCAL
+
 #zookeeper
 echo "delprinc -force zookeeper/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey zookeeper/$HOSTNAME" | $KADMIN_LOCAL
@@ -33,10 +38,10 @@ echo "delprinc -force hdfs/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey hdfs/$HOSTNAME" | $KADMIN_LOCAL
 echo "ktadd -k `pwd`/$SERVICE_KEYTAB hdfs/$HOSTNAME" | $KADMIN_LOCAL
 
-#host
-echo "delprinc -force host/$HOSTNAME" | $KADMIN_LOCAL
-echo "addprinc -randkey host/$HOSTNAME" | $KADMIN_LOCAL
-echo "ktadd -k `pwd`/$SERVICE_KEYTAB host/$HOSTNAME" | $KADMIN_LOCAL
+#mapred
+echo "delprinc -force mapred/$HOSTNAME" | $KADMIN_LOCAL
+echo "addprinc -randkey mapred/$HOSTNAME" | $KADMIN_LOCAL
+echo "ktadd -k `pwd`/$SERVICE_KEYTAB mapred/$HOSTNAME" | $KADMIN_LOCAL
 
 sudo chown $NORMAL_USER `pwd`/$SERVICE_KEYTAB
 
