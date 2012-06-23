@@ -18,27 +18,28 @@ NORMAL_USER=`whoami`
 #as if you only ran it once. Currently accomplished by deleting existing
 #principles and keytabs, if any, and then (re-)creating.
 
-#1. services
-SERVICE_KEYTAB=services.keytab
-
-rm -f `pwd`/$SERVICE_KEYTAB
-
 #host
 echo "delprinc -force host/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey host/$HOSTNAME" | $KADMIN_LOCAL
 echo "ktadd -k `pwd`/$SERVICE_KEYTAB host/$HOSTNAME" | $KADMIN_LOCAL
 
-#zookeeper
+#1. services
+SERVICE_KEYTAB=services.keytab
+
+rm -f `pwd`/$SERVICE_KEYTAB
+
+
+#1.1. zookeeper
 echo "delprinc -force zookeeper/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey zookeeper/$HOSTNAME" | $KADMIN_LOCAL
 echo "ktadd -k `pwd`/$SERVICE_KEYTAB zookeeper/$HOSTNAME" | $KADMIN_LOCAL
 
-#hdfs
+#1.2. hdfs
 echo "delprinc -force hdfs/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey hdfs/$HOSTNAME" | $KADMIN_LOCAL
 echo "ktadd -k `pwd`/$SERVICE_KEYTAB hdfs/$HOSTNAME" | $KADMIN_LOCAL
 
-#mapred
+#1.3. mapred
 echo "delprinc -force mapred/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey mapred/$HOSTNAME" | $KADMIN_LOCAL
 echo "ktadd -k `pwd`/$SERVICE_KEYTAB mapred/$HOSTNAME" | $KADMIN_LOCAL
