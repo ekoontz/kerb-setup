@@ -49,6 +49,8 @@ sudo chown $NORMAL_USER `pwd`/$SERVICE_KEYTAB
 #2. users
 echo "delprinc -force zkclient" | $KADMIN_LOCAL
 echo "addprinc -pw $PASSWORD zkclient" | $KADMIN_LOCAL
+echo "delprinc -force `whoami`" | $KADMIN_LOCAL
+echo "addprinc -pw $PASSWORD `whoami`" | $KADMIN_LOCAL
 
 # only uncomment this if you want to use keytabs with client (rather
 # than password).
