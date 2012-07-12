@@ -1,11 +1,5 @@
 #!/bin/sh
 
-PASSWORD=$1
-if [ -z $PASSWORD ]; then
-    echo "Usage: principles.sh <interactive-client-password>"
-    exit 1
-fi
-
 if [ -z $HOSTNAME ]; then
     HOSTNAME=`hostname -f`
 fi
@@ -48,6 +42,30 @@ echo "ktadd -k `pwd`/$SERVICE_KEYTAB mapred/$HOSTNAME" | $KADMIN_LOCAL
 sudo chown $NORMAL_USER `pwd`/$SERVICE_KEYTAB
 
 #2. users
+
+echo
+PASSWORD1="null1"
+PASSWORD2="null2"
+while [ $PASSWORD1 != $PASSWORD2 ]; do
+
+    echo -n "Password:"
+    stty -echo
+    read PASSWORD1
+    echo
+    echo -n "Repeat password:"
+    stty -echo
+    read PASSWORD2
+
+    echo
+    if [ $PASSWORD1 != $PASSWORD2 ]; then
+       echo "passwords did not match: please try again."
+    fi
+
+done
+stty echo
+
+PASSWORD=$PASSWORD1
+
 echo "delprinc -force `whoami`" | $KADMIN_LOCAL
 echo "addprinc -pw $PASSWORD `whoami`" | $KADMIN_LOCAL
 
