@@ -48,11 +48,11 @@ PASSWORD1="null1"
 PASSWORD2="null2"
 while [ $PASSWORD1 != $PASSWORD2 ]; do
 
-    echo -n "Password:"
+    echo -n "Choose password for principal $NORMAL_USER: "
     stty -echo
     read PASSWORD1
     echo
-    echo -n "Repeat password:"
+    echo -n "Repeat password for principal $NORMAL_USER: "
     stty -echo
     read PASSWORD2
 
