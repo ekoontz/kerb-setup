@@ -9,10 +9,11 @@ echo "   server principals (service/instance@DOMAIN)."
 KADMIN_LOCAL="sudo kadmin.local"
 NORMAL_USER=`whoami`
 
-#This script is idempotent: running it multiple times results in the same state.
-#as if you only ran it once. Currently accomplished by deleting existing
-#principles and keytabs, if any, and then (re-)creating.
-
+# This script is idempotent: running it multiple times results in the same state.
+# as if you only ran it once. (Although the generated keytab contents will differ 
+# each time).
+# Currently accomplished by deleting existing
+# principles and keytabs, if any, and then (re-)creating.
 SERVICE_KEYTAB=services.keytab
 rm -f `pwd`/$SERVICE_KEYTAB
 
