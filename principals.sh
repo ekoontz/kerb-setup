@@ -40,6 +40,12 @@ echo "delprinc -force mapred/$HOSTNAME" | $KADMIN_LOCAL
 echo "addprinc -randkey mapred/$HOSTNAME" | $KADMIN_LOCAL
 echo "ktadd -k `pwd`/$SERVICE_KEYTAB mapred/$HOSTNAME" | $KADMIN_LOCAL
 
+
+#1.5. yarn
+echo "delprinc -force yarn/$HOSTNAME" | $KADMIN_LOCAL
+echo "addprinc -randkey yarn/$HOSTNAME" | $KADMIN_LOCAL
+echo "ktadd -k `pwd`/$SERVICE_KEYTAB yarn/$HOSTNAME" | $KADMIN_LOCAL
+
 sudo chown $NORMAL_USER `pwd`/$SERVICE_KEYTAB
 
 #2. users
@@ -75,3 +81,20 @@ echo "addprinc -pw $PASSWORD `whoami`" | $KADMIN_LOCAL
 #rm -f `pwd`/`whoami`.keytab
 #echo "ktadd -k `pwd`/`whoami`.keytab `whoami`" | $KADMIN_LOCAL
 #sudo chown $NORMAL_USER `pwd`/`whoami`.keytab
+
+echo "Now we will obtain a ticket-granting ticket and put it in your ticket cache. You should be asked for a password. Type the password you just chose in the last step."
+kinit
+if [ $? = '0' ]; then
+    echo -n "Obtained and cached ticket successfully. Now attempting to renew your ticket.."
+    kinit -R
+    if [ $? = '0' ]; then
+	echo "ok."
+    else
+	echo
+	echo "failed to renew ticket. You may need use kadmin.local to modify your Kerberos policies to fix this."
+    fi
+else
+    echo "Failed to obtain ticket. Try running kinit manually and be careful that you typed the password correctly."
+fi
+
+
