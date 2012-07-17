@@ -7,6 +7,7 @@ echo "using hostname: $HOSTNAME for instance component of"
 echo "   server principals (service/instance@DOMAIN)."
 
 KADMIN_LOCAL="sudo kadmin.local"
+KDC_START="sudo service krb5kdc restart"
 NORMAL_USER=`whoami`
 
 # This script is idempotent: running it multiple times results in the same state.
@@ -82,6 +83,15 @@ echo "addprinc -pw $PASSWORD `whoami`" | $KADMIN_LOCAL
 #echo "ktadd -k `pwd`/`whoami`.keytab `whoami`" | $KADMIN_LOCAL
 #sudo chown $NORMAL_USER `pwd`/`whoami`.keytab
 
+
+#Restart KDC (or start it if it's not running yet). 
+#(Note that we could have done this earlier, but
+# nothing until here requires the KDC to be running,
+# It's more clear to put it here because it makes clear
+# what the KDC is used for - (granting ticket-granting
+# tickets, which we do next).
+$KDC_START
+
 echo "Now we will obtain a ticket-granting ticket and put it in your ticket cache. You should be asked for a password. Type the password you just chose in the last step."
 kinit
 if [ $? = '0' ]; then
@@ -94,7 +104,7 @@ if [ $? = '0' ]; then
 	echo "failed to renew ticket. You may need use kadmin.local to modify your Kerberos policies to fix this."
     fi
 else
-    echo "Failed to obtain ticket. Try running kinit manually and be careful that you typed the password correctly."
+    echo "Failed to obtain ticket. Try running kinit manually, being sure that you're entering your password correctly."
 fi
 
 
