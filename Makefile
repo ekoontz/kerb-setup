@@ -3,7 +3,7 @@ CONFIGS=core-site.xml hdfs-site.xml mapred-site.xml yarn-site.xml
 
 all: $(CONFIGS)
 
-install: all
+install: clean all
 	cp $(CONFIGS) ~/hadoop-tm-6-runtime/etc/hadoop
 
 clean:

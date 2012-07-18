@@ -86,7 +86,9 @@
     <xsl:value-of select="."/>
   </xsl:template>
 
-<!--
-  <xsl:template match="*"/>
--->
+  <xsl:template match="comment()">
+    <xsl:copy-of select="."/>
+  </xsl:template>
+
+
 </xsl:stylesheet>
