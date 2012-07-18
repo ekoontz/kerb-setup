@@ -1,10 +1,5 @@
 #!/bin/sh
 REALM=HADOOP.LOCALDOMAIN
-PASSWORD=$1
-if [ -z $PASSWORD ]; then
-    echo "Usage: principles.sh <interactive-client-password>"
-    exit 1
-fi
 
 if [ -z $HOSTNAME ]; then
     HOSTNAME=`hostname -f`
